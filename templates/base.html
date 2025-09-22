@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        hr {
+          margin-left: 6%;
+          margin-right: 6%;
+        }
+
+        .nav-bar {
+          background-color: white;
+        }
+
+        a {
+          color: black;
+          text-decoration: none;
+        }
+
+        .card-body {
+          background-color: white;
+          border: none;
+        }
+
+        .card-body:hover {
+          background-color: #E5F3FD;
+          transform: scale(1.01);
+          transition: 0.3sec ease;
+        }
+
+        .cards{
+          background-color: #F2F0EF;
+        }
+
+        .cards,save:hover {
+          background-color: #D3D3D3;
+          transform: scale(1.01);
+          transition: 0.3sec ease;
+        }
+
+        .save {
+          float: right;
+        }
+
+        .save svg {
+          transition: color 0.3s ease;
+        }
+
+        .save.active svg {
+          color: blue;
+          fill: blue;
+        }
+
+        /* Search bar style */
+        form .form-control {
+          box-shadow: none;
+          background-color: #f8f9fa; /* light gray */
+        }
+
+        form .form-control:focus {
+          background-color: #fff;
+          box-shadow: 0 0 6px rgba(0, 119, 255, 0.4);
+        }
+
+        .btn-primary {
+          background: #0077ff;
+          border: none;
+          transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+          background: #005fcc;
+        }
+
+    </style>
+</head>
+<body>
+
+{% block navbar %}
+<header class="p-3 mb-3 border-bottom nav-bar">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start sticky-top">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+                <li><a href="#" class="nav-link px-2 link-body-emphasis">Jobs</a></li>
+                <li><a href="#" class="nav-link px-2 link-body-emphasis">Companies</a></li>
+                <li><a href="#" class="nav-link px-2 link-body-emphasis">Salaries</a></li>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+
+            <div class="dropdown text-end">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small">
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+{%endblock%}
+
+
+{%block content%}
+
+{%endblock%}
+
+
+{%block footer%}
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">© 2025 Company, Inc</p>
+        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" aria-label="Bootstrap">
+            <svg class="bi me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+        </ul>
+    </footer>
+</div>
+{%endblock%}
+
+<script>
+    document.querySelectorAll(".save").forEach(el => {
+        el.addEventListener("click", function(e) {
+            e.preventDefault();
+            this.classList.toggle("active");
+        });
+    });
+
+    const btn = document.getElementById("bookmarkBtn");
+
+    btn.addEventListener("click", () => {
+    const svg = btn.querySelector("svg");
+    if (svg.classList.contains("bi-bookmark")) {
+      // Change to filled bookmark (blue)
+      svg.setAttribute("class", "bi bi-bookmark-fill");
+      svg.setAttribute("fill", "#007bff"); // bootstrap blue
+    } else {
+      // Change back to outline (black)
+      svg.setAttribute("class", "bi bi-bookmark");
+      svg.setAttribute("fill", "black");
+    }
+    });
+</script>
+
+</body>
+</html>

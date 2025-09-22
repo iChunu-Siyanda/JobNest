@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!--Search Bar-->
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="card shadow-lg bg-white border-0 rounded-4 p-4" style="max-width: 600px; width: 100%;">
+
+        <!-- Card Header -->
+        <div class="card-header bg-white border-0 text-center pb-0">
+            <h4 class="fw-bold text-primary mb-0">Search Salaries</h4>
+            <p class="text-muted small mb-0">Know your worth! Just enter your job description.</p>
+        </div>
+
+        <div class="card-body mt-3">
+            <form method="POST" class="d-flex col-12 shadow-sm flex-column gap-3">
+                {{ form.hidden_tag() }}
+
+                <!-- Job + Location row -->
+                <div class="input-group flex-row gap-2">
+                    {{ form.job_salary(class="form-control rounded-pill px-3 py-2 shadow-sm", placeholder="Search Job") }}
+                    {{ form.loc_salary(class="form-control rounded-pill px-3 py-2 shadow-sm", placeholder="Location") }}
+                </div>
+
+                <!-- Submit button -->
+                <div class="d-flex justify-content-center">
+                    {{ form.submit_query(class="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-semibold") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
