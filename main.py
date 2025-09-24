@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 from extensions import db, login_manager, bootstrap
 
-# Import blueprints
+#blueprints
 from authentication.auth_routes import auth_bp
 from services.companies_route import companies_bp
 from services.salaries_route import salaries_bp
@@ -12,14 +12,14 @@ from services.jobs_route import jobs_bp, JobSearchForm
 
 load_dotenv()
 
-def create_app():
-    app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__, instance_relative_config=True)
 
+def create_app():
     app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY", "fallback-secret-key")
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'users.db')}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Initialize extensions
+    #extensions
     db.init_app(app)
     login_manager.init_app(app)
     bootstrap.init_app(app)

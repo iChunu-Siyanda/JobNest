@@ -15,7 +15,6 @@ def fetch_jobs(keyword, location, results_per_page=10):
         "results_per_page": results_per_page,
         "what": keyword,
         "where": location,
-        "content-type": "application/json",
     }
 
     response = requests.get(url, params=params)

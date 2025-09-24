@@ -1,11 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template
+from forms import SalarySearchForm
 
 salaries_bp = Blueprint("salaries", __name__, url_prefix="/salaries")
-
-class SalarySearchForm(FlaskForm):
-    job_salary = StringField('Search Job', validators=[DataRequired()])
-    loc_salary = StringField('Location', validators=[DataRequired()])
-    submit_query = SubmitField('Get Salary')
 
 @salaries_bp.route('/salaries', methods=['GET', 'POST'])
 def salaries_search():

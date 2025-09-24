@@ -1,10 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from forms import CompanySearchForm
 
 companies_bp = Blueprint("companies", __name__, url_prefix="/companies")
-
-class CompanySearchForm(FlaskForm):
-    company_search = StringField('Search Company', validators=[DataRequired()])
-    submit_company = SubmitField('Find Company')
 
 @companies_bp.route('/company', methods=['GET', 'POST'])
 def company_search():

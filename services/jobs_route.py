@@ -1,12 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from apis import fetch_jobs
+from forms import JobSearchForm
 
 jobs_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
-
-class JobSearchForm(FlaskForm):
-    job_search = StringField('Search Job', validators=[DataRequired()])
-    loc_search = StringField('Location', validators=[DataRequired()])
-    submit = SubmitField('Find Job')
 
 @jobs_bp.route("/jobs", methods=["GET", "POST"])
 def job_search():

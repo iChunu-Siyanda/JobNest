@@ -1,49 +1,50 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from extensions import db
+from forms import LoginForm, RegisterForm
 from models import Users
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        # Check if username already exists
+        if Users.query.filter_by(username=form.username.data).first():
+            flash("Username already taken!", "danger")
+            return render_template("sign_up.html", form=form)
 
-        if Users.query.filter_by(username=username).first():
-            return render_template("sign_up.html", error="Username already taken!")
+        # Hash the password
+        hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256")
 
-        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-        new_user = Users(username=username, password=hashed_password)
+        # Create and save new user
+        new_user = Users(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("auth.login"))
 
-    return render_template("sign_up.html")
+        flash("Account created! Please login.", "success")
+        return redirect(url_for("login"))
+
+    return render_template("sign_up.html", form=form)
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = Users.query.filter_by(username=form.username.data).first()
 
-        user = Users.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for("auth.dashboard"))
-        return render_template("login.html", error="Invalid username or password")
+            return redirect(url_for("dashboard"))
 
-    return render_template("login.html")
+        flash("Invalid username or password", "danger")
+        return redirect(url_for("home_page"))
+    return render_template("login.html", form=form)
 
-@auth_bp.route("/dashboard")
-@login_required
-def dashboard():
-    return render_template("dashboard.html", username=current_user.username)
-
-@auth_bp.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("home_page"))
+# @auth_bp.route("/logout")
+# @login_required
+# def logout():
+#     logout_user()
+#     return redirect(url_for("welcome_page"))

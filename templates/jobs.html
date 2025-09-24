@@ -44,8 +44,8 @@
   <div class="row row-cols-1 row-cols-md-2 g-4">
     {% for job in jobs %}
       <div class="col">
-        <div class="card shadow-sm h-100 border-0 rounded-3">
-          <div class="card-body">
+        <div class="card shadow-sm h-100 border-0 rounded-4">
+          <div class="card-body card-view">
             <div class="d-flex align-items-center mb-3">
               <!-- Fallback logo if not provided -->
               <img src="{{ job.get('company_logo', url_for('static', filename='img/default_logo.png')) }}"
