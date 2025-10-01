@@ -14,13 +14,9 @@ class RegisterForm(FlaskForm):
     submit_reg = SubmitField('Register')
 
 class JobSearchForm(FlaskForm):
-    job_search = StringField('Search Job', validators=[DataRequired()])
+    job_search = StringField('Job Search', validators=[DataRequired()])
     loc_search = StringField('Location', validators=[DataRequired()])
     submit = SubmitField('Find Job')
-
-class CompanySearchForm(FlaskForm):
-    company_search = StringField('Search Company', validators=[DataRequired()])
-    submit_company = SubmitField('Find Company')
 
 class SalarySearchForm(FlaskForm):
     job_salary = StringField('Search Job', validators=[DataRequired()])

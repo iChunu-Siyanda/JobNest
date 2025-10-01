@@ -1,82 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container mt-4">
+<div class="d-flex justify-content-center mt-4">
+  <form method="POST" action="{{url_for( 'jobs.job_search' )}}" class="border d-flex col-10 col-md-8 shadow-sm rounded-pill bg-white p-2">
+    {{ form.hidden_tag() }}
 
-  <!-- Alerts -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div class="mb-3">
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+    <!-- Job search field -->
+    <div class="input-group flex-fill me-2">
+      {{ form.job_search(class="form-control border-0 rounded-pill text-center px-3", placeholder="Search Job") }}
+    </div>
 
-  <!-- Filter Bar -->
-  <form method="GET" action="{{ url_for('job_search') }}" class="row g-2 mb-4">
-    <div class="col-md-4">
-      <input type="text" name="query" class="form-control" placeholder="Job title"
-             value="{{ query if query else '' }}">
+    <!-- Location search field -->
+    <div class="input-group flex-fill me-2">
+      {{ form.loc_search(class="form-control border-0 rounded-pill text-center px-3", placeholder="Location") }}
     </div>
-    <div class="col-md-4">
-      <input type="text" name="location" class="form-control" placeholder="Location"
-             value="{{ location if location else '' }}">
-    </div>
-<!--    <div class="col-md-2">-->
-<!--      <select name="contract" class="form-select">-->
-<!--        <option value="">Any contract</option>-->
-<!--        <option value="full_time" {% if contract == "full_time" %}selected{% endif %}>Full-time</option>-->
-<!--        <option value="part_time" {% if contract == "part_time" %}selected{% endif %}>Part-time</option>-->
-<!--        <option value="contract" {% if contract == "contract" %}selected{% endif %}>Contract</option>-->
-<!--      </select>-->
-<!--    </div>-->
-    <div class="col-md-2">
-      <button type="submit" class="btn btn-primary w-100">Filter</button>
+
+    <!-- Submit button -->
+    <div>
+      {{ form.submit(class="btn btn-primary rounded-pill px-4") }}
     </div>
   </form>
+</div>
 
-  <!-- Job Cards -->
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    {% for job in jobs %}
-      <div class="col">
-        <div class="card shadow-sm h-100 border-0 rounded-4">
-          <div class="card-body card-view">
-            <div class="d-flex align-items-center mb-3">
-              <!-- Fallback logo if not provided -->
-              <img src="{{ job.get('company_logo', url_for('static', filename='img/default_logo.png')) }}"
-                   alt="Company Logo"
-                   class="me-3 rounded-circle"
-                   style="width:50px; height:50px; object-fit:cover;">
-              <div>
-                <h5 class="card-title mb-1">{{ job.title }}</h5>
-                <p class="text-muted small mb-0">
-                  {{ job.company }}
-                </p>
-              </div>
+<!-- Job Cards -->
+<p class="m-3">Results for <strong>{{job}}</strong> in <strong>{{location}}</strong></p>
+<div class="m-1 row row-cols-1 row-cols-md-2 g-4">
+  {% for job in jobs %}
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body border-1 rounded-3 card-view">
+          <div class="d-flex align-items-center mb-3">
+            <!-- Fallback logo if not provided -->
+<!--            <img src="{{ job.get('company_logo', url_for('static', filename='img/default_logo.png')) }}"-->
+<!--                 alt="Company Logo"-->
+<!--                 class="me-3 rounded-circle"-->
+<!--                 style="width:50px; height:50px; object-fit:cover;">-->
+            <div>
+              <h5 class="card-title mb-1">{{ job.title }}</h5>
+              <p class="text-muted small mb-0">
+                {{ job.company }}
+              </p>
             </div>
-
-            <p class="text-secondary small mb-2">
-              <i class="bi bi-geo-alt-fill"></i>
-              {{ job.location }}
-            </p>
-
-<!--            <p class="card-text">-->
-<!--              {{ job.descriptin }}...-->
-<!--            </p>-->
-
-            <a href="{{ job.url }}" target="_blank"
-               class="btn btn-primary w-100">Apply Now</a>
           </div>
+
+          <p class="text-secondary small mb-2">
+            <i class="bi bi-geo-alt-fill"></i>
+            {{ job.location }}
+          </p>
+
+          <a href="{{ job.redirect_url }}" target="_blank"
+             class="btn btn-primary w-100">Apply Now</a>
         </div>
       </div>
-    {% endfor %}
-  </div>
-
+    </div>
+  {% endfor %}
 </div>
+
 {% endblock %}
 

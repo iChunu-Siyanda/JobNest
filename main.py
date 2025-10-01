@@ -1,12 +1,15 @@
 from flask import Flask, render_template, redirect, url_for
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
+
+from sqlalchemy.testing.pickleable import User
+
 from extensions import db, login_manager, bootstrap
 
 #blueprints
 from authentication.auth_routes import auth_bp
-from services.companies_route import companies_bp
 from services.salaries_route import salaries_bp
 from services.jobs_route import jobs_bp, JobSearchForm
 
@@ -21,6 +24,7 @@ def create_app():
 
     #extensions
     db.init_app(app)
+    login_manager = LoginManager()
     login_manager.init_app(app)
     bootstrap.init_app(app)
 
@@ -32,8 +36,11 @@ def create_app():
     # Register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(jobs_bp)
-    app.register_blueprint(companies_bp)
     app.register_blueprint(salaries_bp)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     # Homepage
     @app.route('/', methods=['GET', 'POST'])
@@ -42,7 +49,7 @@ def create_app():
         if form.validate_on_submit():
             job = form.job_search.data
             location = form.loc_search.data
-            return redirect(url_for("job_search", job=job, location=location))
+            return redirect(url_for("jobs.job_search", job=job, location=location))
         return render_template('index.html', form=form)
 
     return app

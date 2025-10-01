@@ -13,7 +13,7 @@
         }
 
         .nav-bar {
-          background-color: white;
+          background-color: #a9c7ee;
         }
 
         a {
@@ -26,9 +26,13 @@
           border: none;
         }
 
+        .tips:hover {
+          transform: scale(1.02);
+          transition: 0.3sec ease;
+        }
+
         .card-body:hover {
-          background-color: #E5F3FD;
-          transform: scale(1.01);
+          transform: scale(1.02);
           transition: 0.3sec ease;
         }
 
@@ -78,7 +82,7 @@
 
     </style>
 </head>
-<body>
+<body class="bg-light">
 
 {% block navbar %}
 <header class="p-3 mb-3 border-bottom nav-bar">
@@ -90,15 +94,10 @@
                 </svg>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 link-body-emphasis">Jobs</a></li>
-                <li><a href="#" class="nav-link px-2 link-body-emphasis">Companies</a></li>
-                <li><a href="#" class="nav-link px-2 link-body-emphasis">Salaries</a></li>
+                <li><a href="/" class="nav-link px-2 link-secondary text-black">Home</a></li>
+                <li><a href="/jobs" class="nav-link px-2 link-body-emphasis">Jobs</a></li>
+                <li><a href="/salaries" class="nav-link px-2 link-body-emphasis">Salaries</a></li>
             </ul>
-
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
 
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

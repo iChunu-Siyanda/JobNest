@@ -1,9 +1,13 @@
 import requests
 import os
+from dotenv import load_dotenv
 
-def fetch_jobs(keyword, location, results_per_page=10):
-    app_id = os.getenv("ADZUNA_APP_ID")
-    app_key = os.getenv("ADZUNA_APP_KEY")
+load_dotenv()
+
+
+def fetch_jobs(keyword, location, results_per_page=6):
+    app_id = os.getenv("ADZUNA_API_ID")
+    app_key = os.getenv("ADZUNA_API_KEY")
 
     if not app_id or not app_key:
         return []
@@ -22,6 +26,7 @@ def fetch_jobs(keyword, location, results_per_page=10):
         return []
 
     data = response.json()
+
     jobs = []
     for item in data.get("results", []):
         jobs.append({

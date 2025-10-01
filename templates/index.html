@@ -3,7 +3,7 @@
 
 <!-- Search Bar -->
 <div class="d-flex justify-content-center mt-3">
-  <form method="POST" class="d-flex col-10 col-md-8 shadow-sm rounded-pill bg-white p-2">
+  <form method="POST" class="border d-flex col-10 col-md-8 shadow rounded-pill bg-white p-2">
     {{ form.hidden_tag() }}
 
     <!-- Job search field -->
@@ -26,20 +26,79 @@
 
 <hr/>
 
-<!--Cards-Displaying-Jobs-->
-<div class="d-flex justify-content-center">
-    <div class="cards col-8">
-        <div class="card-body">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark save" viewBox="0 0 16 16">
-                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-            </svg>
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+<div class="container mt-5">
+
+  <!-- Featured Jobs -->
+<!--  <h3 class="mb-4">Featured Jobs</h3>-->
+<!--  <div class="row row-cols-1 row-cols-md-3 g-4">-->
+<!--    {% for job in featured_jobs %}-->
+<!--      <div class="col">-->
+<!--        <div class="card text-white h-100 shadow-sm border-0"-->
+<!--             style="background-image: url('{{ job.bg_image }}'); background-size: cover; background-position: center; border-radius: 1rem;">-->
+<!--          <div class="card-body d-flex flex-column justify-content-end" style="background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 1.5rem;">-->
+<!--            <h5 class="card-title">{{ job.title }}</h5>-->
+<!--            <p class="card-text mb-1">{{ job.company }}</p>-->
+<!--            <p class="card-text mb-2">{{ job.location }}</p>-->
+<!--            <a href="{{ job.redirect_url }}" target="_blank" class="btn btn-primary mt-2">Apply Now</a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    {% endfor %}-->
+<!--  </div>-->
+
+<!--  Job Near Me  -->
+    <h3 class="mt-5 mb-3">Jobs Near Me</h3>
+    <div class="row tips">
+        <div class="card h-100 shadow border-1 rounded-4">
+            <div class="card-body">
+                <h5 class="card-title">Jobs Near Me</h5>
+                <p class="card-text">Find jobs available near your current location using geolocation.</p>
+                <button id="find-jobs-btn" class="btn btn-outline-primary rounded-pill">Find Jobs</button>
+            </div>
         </div>
     </div>
+
+    <!-- Career Tips -->
+    <h3 class="mt-5 mb-3">Career Tips</h3>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col tips">
+            <div class="card h-100 shadow border-1 rounded-4">
+                <div class="card-body">
+                    <h5 class="card-title">CV Tips</h5>
+                    <p class="card-text">Learn how to make your CV stand out to recruiters and get more interviews.</p>
+                    <a href="/tips/cv" class="btn btn-outline-primary rounded-pill">Read More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col tips">
+            <div class="card h-100 shadow border-1 rounded-4">
+                <div class="card-body">
+                    <h5 class="card-title">Interview Tips</h5>
+                    <p class="card-text">Prepare effectively and impress hiring managers with these interview strategies.</p>
+                    <a href="/tips/interview" class="btn btn-outline-primary rounded-pill">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<!-- Geolocation Script -->
+<script>
+document.getElementById("find-jobs-btn").addEventListener("click", function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      // Redirect to job search with lat/lon (backend should convert to city if needed)
+      window.location.href = `/jobs/?location=${lat},${lon}&job=`;
+    }, function(error) {
+      alert("Could not get your location. Please allow location access.");
+    });
+  } else {
+    alert("Geolocation is not supported by your browser.");
+  }
+});
+</script>
 
 {% endblock %}
